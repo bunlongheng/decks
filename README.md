@@ -1,10 +1,8 @@
-# Mermaid++ - AI-Powered Diagram Generator
+# Decks - AI Slide Deck Generator
 
-Paste any Mermaid syntax and get a beautiful rendered diagram instantly -- or describe what you want in plain English and let AI generate it for you.
+Turn ideas into beautiful slide decks instantly. Describe your topic, pick a theme, and get a polished HTML deck in seconds.
 
-**Live --> [mermaid-bheng.netlify.app](https://mermaid-bheng.netlify.app)**
-
-![Screenshot](screenshot.png)
+**Live -> [decks-bheng.vercel.app](https://decks-bheng.vercel.app)** _(placeholder)_
 
 ---
 
@@ -12,55 +10,23 @@ Paste any Mermaid syntax and get a beautiful rendered diagram instantly -- or de
 
 | Layer | Technology |
 |-------|------------|
-| Framework | Next.js 15.1.0, React 19.0.0, TypeScript |
+| Framework | Next.js 15, React 19, TypeScript |
 | Styling | Tailwind CSS |
-| Database | Supabase (PostgreSQL) |
-| Auth | Supabase Auth + localhost bypass |
+| Auth + DB | Supabase (PostgreSQL + Auth) |
 | AI | Claude API (`@anthropic-ai/sdk`) using `claude-sonnet-4-6` |
-| Rendering | Mermaid.js |
-| UI | lucide-react, prismjs, react-simple-code-editor |
-| Utilities | lz-string, canvas-confetti, qrcode.react |
+| Hosting | Vercel |
 | Testing | Vitest (unit) + Playwright (E2E) |
-| Hosting | Vercel + Netlify |
-| Build | Turbo cache enabled |
-
----
-
-## Architecture
-
-```
-app/
-  page.tsx              # Main diagram editor (server component)
-  DiagramsClient.tsx    # Client-side editor + canvas logic
-  DiagramsShell.tsx     # Layout shell with auth
-  MermaidRenderer.tsx   # Mermaid rendering engine
-  CuteToast.tsx         # Toast notifications
-  SignInButton.tsx      # Supabase auth button
-  providers.tsx         # Context providers
-  auth/                 # Auth callback routes
-  d/                    # Shared diagram routes
-  api/                  # API routes (AI generation, etc.)
-lib/                    # Shared utilities + Supabase client
-supabase/               # Migrations + DB config
-tests/                  # Vitest + Playwright tests
-public/                 # Static assets
-```
 
 ---
 
 ## Features
 
-- **AI diagram generation** -- describe what you want in plain English, Claude generates the Mermaid syntax
-- **Multi-diagram support** -- flowcharts, sequence, class, state, ER, Gantt, pie, mindmap, timeline, gitGraph
-- **Custom sequence renderer** -- hand-crafted colorful SVG with colored lifelines, pill labels, icons, and step numbers
-- **Pan and zoom canvas** -- scroll to pan, Ctrl+scroll to zoom, pinch-to-zoom on mobile, double-click to zoom in, `F` to fit
-- **Dark / Light / Monokai themes**
-- **Export as PNG/SVG** -- 2x retina PNG, raw code, JSON export, copy to clipboard
-- **QR code sharing** -- generate a QR code link to any diagram
-- **Real-time preview** -- live rendering with Prism.js syntax highlighting
-- **Resizable code editor** with dark mode toggle
-- **Mobile responsive** -- full-screen code editor + settings bottom sheet
-- **Supabase Auth** -- secure login with localhost/LAN bypass for development
+- AI-powered slide generation from a single prompt
+- Six built-in themes: Minimal, Dark, Neon, Corporate, Playful, Gradient
+- Self-contained HTML output (no runtime dependencies, opens in any browser)
+- Keyboard shortcut (Cmd/Ctrl + Enter) to generate
+- Supabase auth with single-email allowlist
+- Optional embedded diagrams via diagrams-bheng service
 
 ---
 
@@ -68,11 +34,9 @@ public/                 # Static assets
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start dev server on port 3002 |
+| `npm run dev` | Start dev server on port 3010 |
 | `npm run build` | Production build |
-| `npm run start` | Start production server |
-| `npm run prod` | Build + start on port 3002 (0.0.0.0) |
-| `npm run lint` | Run ESLint |
+| `npm run start` | Start production server on port 3010 |
 | `npm run test` | Run Vitest unit tests |
 | `npm run test:e2e` | Run Playwright E2E tests |
 
@@ -82,32 +46,42 @@ public/                 # Static assets
 
 | Variable | Purpose |
 |----------|---------|
-| `ANTHROPIC_API_KEY` | Claude API key for AI diagram generation |
+| `ANTHROPIC_API_KEY` | Claude API key for deck generation |
+| `AI_API_SECRET` | Bearer token for the diagrams-bheng service |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key (client-side) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key (client-side) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-only) |
-| `AI_API_SECRET` | Secret for AI API route protection |
-| `ALLOWED_EMAIL` | Email allowed for auth access |
+| `ALLOWED_EMAIL` | Email allowed to sign in |
+| `NEXT_PUBLIC_SITE_URL` | Public site URL for OAuth redirects |
+
+Copy `.env.local.example` to `.env.local` and fill in values.
 
 ---
 
 ## Project Structure
 
 ```
-diagrams/
-  app/                  # Next.js App Router pages + components
-  lib/                  # Utilities, Supabase client, helpers
-  supabase/             # Database migrations
-  tests/                # Unit + E2E test suites
-  public/               # Static assets + icons
-  scripts/              # Build + deploy scripts
-  tailwind.config.js    # Tailwind configuration
-  vitest.config.ts      # Vitest configuration
-  playwright.config.ts  # Playwright configuration
-  turbo.json            # Turbo cache config
-  vercel.json           # Vercel deploy config
+decks/
+  app/
+    page.tsx                  # Deck generator UI (client)
+    layout.tsx                # Root layout
+    manifest.ts               # PWA manifest
+    opengraph-image.tsx       # OG image
+    SignInButton.tsx          # Google OAuth button
+    CuteToast.tsx             # Toast notifications
+    providers.tsx             # Context providers
+    auth/                     # Auth callback + password reset
+    api/
+      generate-deck/          # POST endpoint -> Claude -> HTML deck
+  lib/
+    deck-gen.ts               # Pure HTML deck renderer
+    is-local.ts               # Localhost detection
+    supabase/                 # Supabase server + client helpers
+  tests/                      # Vitest + Playwright tests
+  middleware.ts               # Auth middleware
+  next.config.ts              # Next config
 ```
 
 ---
 
-Built by [Bunlong Heng](https://www.bunlongheng.com) | [GitHub](https://github.com/bunlongheng/diagrams)
+Built by [Bunlong Heng](https://www.bunlongheng.com) | [GitHub](https://github.com/bunlongheng)

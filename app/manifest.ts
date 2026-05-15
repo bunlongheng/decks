@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: "Diagrams",
-        short_name: "Diagrams",
-        description: "Beautiful diagram generator — paste any diagram syntax and get a polished visual instantly.",
+        name: "Decks",
+        short_name: "Decks",
+        description: "Turn ideas into beautiful slide decks instantly.",
         start_url: "/",
         display: "standalone",
         background_color: "#ffffff",

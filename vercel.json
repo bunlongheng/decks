@@ -1,5 +1,4 @@
 {
   "buildCommand": "next build",
-  "installCommand": "bun install",
-  "ignoreCommand": "exit 1"
+  "installCommand": "bun install"
 }

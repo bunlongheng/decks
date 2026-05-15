@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function UpdatePasswordPage() {
@@ -8,6 +8,12 @@ export default function UpdatePasswordPage() {
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!done) return;
+    const t = setTimeout(() => location.replace("/"), 1500);
+    return () => clearTimeout(t);
+  }, [done]);
 
   const inputStyle: React.CSSProperties = {
     width: "100%", padding: "10px 14px", fontSize: 14, borderRadius: 8,
@@ -33,10 +39,7 @@ export default function UpdatePasswordPage() {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, width: 280 }}>
         <h1 style={{ fontSize: 20, fontWeight: 700, color: "#e8eaf8", margin: 0 }}>Set New Password</h1>
         {done ? (
-          <>
-            <p style={{ fontSize: 14, color: "#6ee7b7", margin: 0, textAlign: "center" }}>Password updated! Redirecting…</p>
-            <script dangerouslySetInnerHTML={{ __html: `setTimeout(()=>location.replace('/'),1500)` }} />
-          </>
+          <p style={{ fontSize: 14, color: "#6ee7b7", margin: 0, textAlign: "center" }}>Password updated! Redirecting…</p>
         ) : (
           <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}>
             <input

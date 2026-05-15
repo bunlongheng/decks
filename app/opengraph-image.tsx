@@ -25,12 +25,12 @@ export default function OgImage() {
                 </div>
                 {/* Text */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                    <span style={{ fontSize: 96, fontWeight: 900, color: "white", lineHeight: 1 }}>Diagrams</span>
+                    <span style={{ fontSize: 96, fontWeight: 900, color: "white", lineHeight: 1 }}>Decks</span>
                     <div style={{ fontSize: 32, color: "rgba(255,255,255,0.65)", fontWeight: 400, lineHeight: 1.4, maxWidth: 580 }}>
-                        Beautiful sequence diagrams — paste diagram syntax, get polished visuals instantly.
+                        Turn ideas into beautiful slide decks instantly.
                     </div>
                     <div style={{ display: "flex", gap: 16, marginTop: 12 }}>
-                        {["Sequence", "Flowchart", "ERD", "Gantt", "Export PNG"].map(tag => (
+                        {["Slides", "Reports", "AI", "Themes", "Export"].map(tag => (
                             <div key={tag} style={{ padding: "8px 20px", background: "rgba(139,92,246,0.25)", border: "1px solid rgba(139,92,246,0.5)", borderRadius: 999, color: "hsl(285,90%,75%)", fontSize: 22, fontWeight: 600 }}>{tag}</div>
                         ))}
                     </div>

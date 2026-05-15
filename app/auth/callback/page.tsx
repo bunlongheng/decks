@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 export default function AuthCallbackPage() {
   useEffect(() => {
     const supabase = createClient();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: string, session: unknown) => {
       if (event === "PASSWORD_RECOVERY") {
         window.location.replace("/auth/update-password");
       } else if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session) {

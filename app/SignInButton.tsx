@@ -9,9 +9,10 @@ export default function LoginForm() {
     setLoading(true);
     const supabase = createClient();
     if (!supabase) { setLoading(false); return; }
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: "https://diagrams-bheng.vercel.app/auth/callback" },
+      options: { redirectTo: `${origin}/auth/callback` },
     });
   }
 

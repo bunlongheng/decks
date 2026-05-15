@@ -1,12 +1,15 @@
 {
-  "name": "diagrams",
+  "name": "decks",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "dev": "next dev --port 3002",
+    "dev": "next dev --port 3010",
     "build": "next build",
-    "start": "next start",
-    "prod": "next build && next start -p 3002 --hostname 0.0.0.0",
+    "start": "next start -p 3010",
+    "prod": "next build && next start -p 3010 --hostname 0.0.0.0",
     "lint": "next lint",
     "test": "vitest run",
     "test:e2e": "playwright test"
@@ -15,25 +18,15 @@
     "@anthropic-ai/sdk": "^0.80.0",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.99.2",
-    "@types/prismjs": "^1.26.6",
-    "canvas-confetti": "^1.9.4",
     "lucide-react": "^0.574.0",
-    "lz-string": "^1.5.0",
-    "mermaid": "^11.13.0",
     "next": "^15.1.0",
-    "pg": "^8.20.0",
-    "prismjs": "^1.30.0",
-    "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-simple-code-editor": "^0.14.1"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
-    "@types/canvas-confetti": "^1.9.0",
-    "@types/lz-string": "^1.5.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
