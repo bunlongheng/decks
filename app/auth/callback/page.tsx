@@ -1,19 +1,22 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export default function AuthCallbackPage() {
+function CallbackInner() {
+  const params = useSearchParams();
+  const returnTo = params.get("returnTo") || "/";
   useEffect(() => {
     const supabase = createClient();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event: string, session: unknown) => {
       if (event === "PASSWORD_RECOVERY") {
         window.location.replace("/auth/update-password");
       } else if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session) {
-        window.location.replace("/");
+        window.location.replace(returnTo);
       }
     });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [returnTo]);
 
   return (
     <div style={{ minHeight: "100vh", background: "#0f1022", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -23,5 +26,13 @@ export default function AuthCallbackPage() {
         <p style={{ fontSize: 14, color: "#6b7280", margin: 0 }}>Signing you in…</p>
       </div>
     </div>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={null}>
+      <CallbackInner />
+    </Suspense>
   );
 }
