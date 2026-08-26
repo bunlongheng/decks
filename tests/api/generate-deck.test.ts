@@ -3,13 +3,6 @@
  */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// Mock Supabase server client (we hit the localhost path via host header anyway)
-vi.mock("@/lib/supabase/server", () => ({
-  createClient: vi.fn(async () => ({
-    auth: { getUser: async () => ({ data: { user: null } }) },
-  })),
-}));
-
 // Mock the Anthropic SDK with a controllable response
 let mockText = "";
 vi.mock("@anthropic-ai/sdk", () => {

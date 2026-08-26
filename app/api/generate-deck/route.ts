@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { createClient } from "@/lib/supabase/server";
-import { isLocal } from "@/lib/is-local";
 import { renderDeck, type DeckInput } from "@/lib/deck-gen";
 
 export const maxDuration = 60;
@@ -54,13 +52,6 @@ Slide blueprint (in order):
 Aim for 6-9 sections total. Always include "mode": "slides". No markdown code fences. Return ONLY the JSON object.`;
 
 export async function POST(req: NextRequest) {
-  // Auth: bypass for localhost/LAN, require session in production
-  if (!isLocal(req)) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   let body: { topic?: string; theme?: ThemeId };
   try { body = await req.json(); } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
